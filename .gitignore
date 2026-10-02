@@ -1,0 +1,35 @@
+# Local env files
+.env
+.env.*
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+env/
+venv/
+
+# Temporary audio files
+*.mp3
+*.wav
+*.m4a
+
+# Database, auth, and browser session files
+*.db
+auth_state.json
+playwright_active_session/
+playwright_user_data/
+
+# Test output artifacts
+hindi_out*.txt
+test_out*.txt
+test_70b_out.txt
+output.txt
+test_vision.png
+
+# OS files
+.DS_Store
+Thumbs.db

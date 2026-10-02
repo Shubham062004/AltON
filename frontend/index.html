@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALton TRANSLATE // SYSTEM v2.0</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ultron: {
+                            dark: '#010409',
+                            glass: 'rgba(5, 7, 15, 0.65)',
+                            neon: '#00F0FF',
+                            magenta: '#FF0055',
+                            green: '#00FF88',
+                            purple: '#D8B4FE',
+                            border: 'rgba(0, 240, 255, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Orbitron', 'Inter', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Futuristic Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #010409;
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Cyber-Grid Hologram Background */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Scanline Overlay */
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 240, 255, 0.015) 50%,
+                rgba(0, 240, 255, 0.015)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            50% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+
+        .scifi-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .mono-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        /* Glassmorphism Panel */
+        .glass-panel {
+            background: rgba(5, 7, 15, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-panel:hover {
+            border-color: rgba(0, 240, 255, 0.35);
+            box-shadow: 0 12px 40px rgba(0, 240, 255, 0.08);
+        }
+
+        /* Tech corner brackets */
+        .tech-card {
+            position: relative;
+        }
+        .tech-card::before, .tech-card::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: #00F0FF;
+            border-style: solid;
+            pointer-events: none;
+            transition: border-color 0.3s ease;
+        }
+        .tech-card::before {
+            top: -1px; left: -1px;
+            border-width: 2px 0 0 2px;
+        }
+        .tech-card::after {
+            bottom: -1px; right: -1px;
+            border-width: 0 2px 2px 0;
+        }
+
+        /* Magenta tech corners for Vision panel */
+        .vision-card::before, .vision-card::after {
+            border-color: #FF0055;
+        }
+
+        /* Neon Borders */
+        .neon-border-cyan {
+            border: 1px solid #00F0FF !important;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .neon-border-magenta {
+            border: 1px solid #FF0055 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+        }
+        .neon-border-green {
+            border: 1px solid #00FF88 !important;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.35);
+        }
+        .neon-border-amber {
+            border: 1px solid #F59E0B !important;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.35);
+        }
+
+        /* Scrollbars styling */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 240, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+
+        .prose p { margin-bottom: 0.5rem; }
+        .prose code { background: rgba(0,0,0,0.5); padding: 0.1em 0.3em; border-radius: 3px; font-family: monospace; color: #00F0FF; }
+        .prose pre { background: rgba(0,0,0,0.8); padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; border: 1px solid rgba(0, 240, 255, 0.2); }
+    </style>
+</head>
+<body class="text-slate-200 select-none">
+
+    <!-- Scanline and Flickering overlay -->
+    <div class="scanline"></div>
+
+    <!-- Three.js Canvas Container -->
+    <div id="canvas-container" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <!-- Radial Glow overlay -->
+    <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_15%,#010409_85%)] pointer-events-none"></div>
+
+    <!-- Hidden file uploaders -->
+    <input type="file" id="docUploadInput" accept=".txt,.pdf,.docx,.md" class="hidden">
+    <input type="file" id="audioUploadInput" accept=".mp3,.wav,.m4a" class="hidden">
+
+    <!-- Main UI Layout wrapper -->
+    <div class="relative z-10 h-screen flex flex-col justify-between p-6">
+        
+        <!-- Header HUD -->
+        <header class="flex justify-between items-center glass-panel tech-card rounded-xl px-6 py-4 mb-4 pywebview-drag-region">
+            <div class="flex items-center gap-3">
+                <div class="relative flex h-3.5 w-3.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-ultron-neon opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-ultron-neon"></span>
+                </div>
+                <h1 class="text-lg md:text-2xl font-black tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-ultron-neon via-sky-400 to-indigo-400 scifi-font uppercase">
+                    ALton // TRANSLATE
+                </h1>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button id="translateModalBtn" onclick="openModal('translate')" class="mono-font text-xs text-ultron-neon border border-ultron-neon/30 px-3 py-1.5 rounded bg-ultron-neon/5 hover:bg-ultron-neon/25 transition-all duration-300 relative z-20 pointer-events-auto flex items-center gap-1.5 cursor-pointer" title="Open Translation Matrix">
+                    <span>🌐</span> Translate
+                </button>
+                <button id="agentModalBtn" onclick="openModal('agent')" class="mono-font text-xs text-purple-400 border border-purple-500/30 px-3 py-1.5 rounded bg-purple-500/5 hover:bg-purple-500/25 transition-all duration-300 relative z-20 pointer-events-auto flex items-center gap-1.5 cursor-pointer" title="Open OS Agent Core Controls & Logs">
+                    <span>⚙️</span> Agent Core
+                </button>
+                <button id="memoryCoreBtn" onclick="openModal('memory')" class="mono-font text-xs text-ultron-magenta border border-ultron-magenta/30 px-3 py-1.5 rounded bg-ultron-magenta/5 hover:bg-ultron-magenta/25 transition-all duration-300 relative z-20 pointer-events-auto flex items-center gap-1.5 cursor-pointer" title="Cognitive Memory Core Facts Dashboard">
+                    <span>🧠</span> Memory Core
+                </button>
+                <button id="mapsModalBtn" onclick="openModal('maps')" class="mono-font text-xs text-sky-400 border border-sky-500/30 px-3 py-1.5 rounded bg-sky-500/5 hover:bg-sky-500/25 transition-all duration-300 relative z-20 pointer-events-auto flex items-center gap-1.5 cursor-pointer" title="Open Google Maps & Geo Coordinates HUD">
+                    <span>📍</span> Maps
+                </button>
+                <div id="connectionStatus" class="mono-font text-xs text-ultron-neon tracking-widest border border-ultron-neon/30 px-3 py-1.5 rounded bg-ultron-neon/5 hidden sm:block">
+                    CORE.ACTIVE // SYSTEM_ONLINE
+                </div>
+
+                <!-- Native Desktop Window Controls -->
+                <div id="desktopControls" class="flex items-center gap-1.5 border-l border-ultron-border/40 pl-3 relative z-20 pointer-events-auto">
+                    <button id="winPinBtn" class="p-1 rounded text-slate-400 hover:text-ultron-neon hover:bg-ultron-neon/10 transition-colors" title="Toggle Always-On-Top">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                    </button>
+                    <button id="winMinBtn" class="p-1 rounded text-slate-400 hover:text-sky-400 hover:bg-sky-400/10 transition-colors" title="Minimize Window">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </button>
+                    <button id="winMaxBtn" class="p-1 rounded text-slate-400 hover:text-emerald-400 hover:bg-emerald-400/10 transition-colors" title="Maximize Window">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16v16H4z"></path></svg>
+                    </button>
+                    <button id="winCloseBtn" class="p-1 rounded text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-colors" title="Close Desktop Agent">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Workspace Modules Grid (3D Holographic Core & AI Assistant) -->
+        <div class="flex-1 grid grid-cols-12 gap-6 min-h-0">
+            
+            <!-- MODULE 1: Middle 3D Holographic Sphere & Vision OCR Panel -->
+            <section id="middleSpacer" class="col-span-12 lg:col-span-7 flex flex-col justify-end items-center pb-8 relative pointer-events-none">
+                <!-- Status text overlay -->
+                <div class="absolute bottom-4 flex flex-col items-center gap-1.5 z-10">
+                    <span id="aiStateLabel" class="mono-font text-xs tracking-[0.4em] text-ultron-neon/50 uppercase">IDLE.STATE</span>
+                    <span id="transcriptLive" class="mono-font text-[10px] text-white/50 tracking-wider"></span>
+                </div>
+                
+                <!-- OCR Vision Scanner Module (Hidden by default) -->
+                <div id="ocrPanel" class="w-full h-full glass-panel tech-card vision-card rounded-2xl p-5 border border-ultron-magenta/50 hidden flex-col pointer-events-auto z-20">
+                    <div class="flex justify-between items-center border-b border-ultron-magenta/40 pb-3 mb-4">
+                        <h2 class="mono-font text-sm tracking-wider text-ultron-magenta uppercase">VISION.OCR_SCANNER</h2>
+                        <button id="closeOcrBtn" class="text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 flex flex-col items-center justify-center border border-dashed border-ultron-magenta/30 rounded-lg relative overflow-hidden bg-slate-950/50">
+                        <input type="file" id="ocrInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                        <div id="ocrPrompt" class="text-center p-4">
+                            <svg class="w-12 h-12 mx-auto text-ultron-magenta/60 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <p class="text-xs mono-font text-slate-400">UPLOAD DOCUMENT OR DROP FILE HERE</p>
+                        </div>
+                        <canvas id="ocrCanvas" class="absolute inset-0 w-full h-full object-contain hidden"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODULE 2: AI Ultron Assistant -->
+            <section class="col-span-12 lg:col-span-5 flex flex-col justify-between glass-panel tech-card rounded-2xl overflow-hidden pointer-events-auto">
+                <!-- Title Header bar -->
+                <div class="flex justify-between items-center border-b border-ultron-border/50 p-4 bg-slate-950/60">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-ultron-neon to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                            <img src="assets/alton-logo.svg" alt="ALton logo" class="w-5 h-5">
+                        </div>
+                        <div>
+                            <h2 class="mono-font text-sm tracking-wider text-white">ALTON_INTELLIGENCE</h2>
+                            <p class="text-[9px] text-ultron-neon font-bold tracking-widest mono-font uppercase">COGNITIVE_GRID.V2</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Web Search Toggle (Globe) -->
+                    <button id="webSearchToggle" class="p-2 rounded border border-slate-700 text-slate-400 hover:border-ultron-neon hover:text-ultron-neon transition-all relative z-20 pointer-events-auto" title="Toggle Real-Time Web Search Context">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Chat Dialog Area -->
+                <div id="chatBox" class="flex-1 p-4 overflow-y-auto flex flex-col gap-4">
+                    <div class="flex gap-3">
+                        <div class="w-6 h-6 rounded-full bg-ultron-neon/20 flex-shrink-0 flex items-center justify-center mt-1">
+                            <span class="text-[9px] text-white font-mono">A</span>
+                        </div>
+                            <div class="bg-slate-950/60 border border-ultron-border/20 rounded-2xl rounded-tl-sm p-3.5 text-xs text-slate-300 max-w-[85%] leading-relaxed">
+                            ALton neural system initialized. Web Speech API loaded. Requesting instructions.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Context Indicator Badge (RAG) -->
+                <div id="docBadge" class="hidden px-4 py-2 mx-4 border border-ultron-border/30 rounded-xl bg-slate-950/70 flex items-center justify-between text-xs text-ultron-neon font-mono select-none">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <svg class="w-3.5 h-3.5 flex-shrink-0 text-ultron-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span id="docBadgeName" class="truncate max-w-[180px]">document.txt</span>
+                    </div>
+                    <button id="clearDocBtn" class="text-slate-500 hover:text-ultron-magenta transition-colors pointer-events-auto">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Floating Chat Input Bar -->
+                <div class="p-4 bg-transparent relative z-20 pointer-events-auto">
+                    <div class="flex items-center gap-1.5 bg-slate-950/80 border border-ultron-border/40 rounded-full px-4 py-2.5 focus-within:border-ultron-neon focus-within:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all duration-300">
+                        <input type="text" id="chatInput" class="flex-1 bg-transparent outline-none text-xs text-slate-200 placeholder-slate-600 font-medium" placeholder="Inject neural inquiry query...">
+                        
+                        <!-- Auto-Listen Wake Word Toggle Button -->
+                        <button id="autoListenToggleBtn" class="p-1 text-slate-500 hover:text-amber-500 transition-all rounded border border-transparent px-1.5 py-0.5 pointer-events-auto relative z-20" title="Toggle Background Auto-Listen (Hello Ultron)">
+                            <span class="text-xs">👂</span>
+                        </button>
+
+                        <!-- Speaker Button -->
+                        <button id="chatSpeakBtn" class="p-1 text-slate-500 hover:text-ultron-neon transition-colors" title="Speak Input Text">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        </button>
+
+                        <!-- Audio File Upload Button -->
+                        <button id="chatAudioUploadBtn" class="p-1 text-slate-500 hover:text-ultron-neon transition-colors" title="Upload Audio File for Transcription">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+                        </button>
+
+                        <!-- File Upload Button (RAG) -->
+                        <button id="chatDocUploadBtn" class="p-1 text-slate-500 hover:text-ultron-neon transition-colors" title="Upload Document for RAG Context">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </button>
+                        
+                        <button id="chatMicBtn" class="p-1 text-slate-500 hover:text-ultron-magenta transition-colors" title="Voice Input Query">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                        </button>
+                        
+                        <button id="chatSendBtn" class="p-1 text-ultron-neon hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+
+    <!-- Translation Matrix Left HUD Panel (Floating Glass) -->
+    <div id="translateModal" class="fixed top-[88px] left-6 z-[80] w-[320px] max-h-[calc(100vh-110px)] pointer-events-none transition-all duration-300 ease-out transform -translate-x-full opacity-0 flex flex-col">
+        <div class="glass-panel tech-card rounded-2xl p-4 w-full border border-ultron-neon/30 relative flex flex-col gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-y-auto pointer-events-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center border-b border-ultron-border pb-2.5">
+                <h2 class="mono-font text-xs tracking-wider text-ultron-neon uppercase flex items-center gap-1.5 font-bold">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                    TRANSLATION.MATRIX
+                </h2>
+                <div class="flex items-center gap-2">
+                    <button id="ocrToggleBtn" class="text-[10px] mono-font border border-ultron-magenta/40 px-2 py-0.5 rounded bg-ultron-magenta/5 text-ultron-magenta hover:bg-ultron-magenta/25 transition-all">
+                        VISION
+                    </button>
+                    <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Translation Content -->
+            <div class="flex flex-col gap-3">
+                <!-- Source Input -->
+                <div class="flex flex-col gap-1.5">
+                    <select id="sourceLang" class="bg-slate-950 border border-ultron-border text-slate-200 rounded px-2.5 py-1.5 outline-none text-[11px] font-semibold uppercase tracking-wider cursor-pointer focus:border-ultron-neon transition-all">
+                        <option value="auto">Auto Detect</option>
+                    </select>
+                    <textarea id="sourceText" class="h-24 bg-slate-950/80 text-xs resize-none outline-none placeholder-slate-600 border border-ultron-border/30 focus:border-ultron-neon p-2.5 rounded transition-colors font-medium text-slate-200" placeholder="Type text to translate..."></textarea>
+                    <div class="flex justify-between items-center px-1">
+                        <span id="charCount" class="mono-font text-[10px] text-slate-500">0 / 5000</span>
+                        <button id="translateMicBtn" class="p-1.5 rounded-full border border-ultron-neon/30 text-ultron-neon hover:bg-ultron-neon/15 transition-all" title="Speech Input">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Swap Divider -->
+                <div class="relative h-px bg-ultron-border/40 my-1">
+                    <button id="swapLangBtn" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-950 border border-ultron-border rounded-full p-1.5 hover:border-ultron-neon text-ultron-neon transition-all">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Target Output -->
+                <div class="flex flex-col gap-1.5">
+                    <select id="targetLang" class="bg-slate-950 border border-ultron-border text-slate-200 rounded px-2.5 py-1.5 outline-none text-[11px] font-semibold uppercase tracking-wider cursor-pointer focus:border-ultron-neon transition-all">
+                    </select>
+                    <div id="targetText" class="h-24 bg-slate-950/80 text-xs text-slate-200 overflow-y-auto break-words p-2.5 border border-ultron-border/30 rounded font-medium"></div>
+                    <div class="flex justify-between items-center px-1">
+                        <span id="detectedLang" class="mono-font text-[10px] text-ultron-neon tracking-wider"></span>
+                        <div class="flex items-center gap-1.5">
+                            <button id="speakTargetBtn" class="p-1.5 rounded border border-ultron-neon/30 text-ultron-neon hover:bg-ultron-neon/15 transition-all" title="Read Output">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                            </button>
+                            <button id="copyBtn" class="p-1.5 rounded border border-ultron-neon/30 text-ultron-neon hover:bg-ultron-neon/15 transition-all" title="Copy Translation">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OS Agent Core Left HUD Panel (Floating Glass) -->
+    <div id="agentModal" class="fixed top-[88px] left-6 z-[80] w-[320px] max-h-[calc(100vh-110px)] pointer-events-none transition-all duration-300 ease-out transform -translate-x-full opacity-0 flex flex-col">
+        <div class="glass-panel tech-card rounded-2xl p-4 w-full border border-purple-500/30 relative flex flex-col gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-y-auto pointer-events-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center border-b border-purple-500/30 pb-2.5">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center animate-pulse">
+                        <span class="text-xs font-bold text-white">⚙️</span>
+                    </div>
+                    <div>
+                        <h2 class="mono-font text-xs tracking-wider text-white font-bold">OS_AGENT_CORE</h2>
+                        <p class="text-[8px] text-purple-400 font-bold tracking-widest mono-font uppercase">DESKTOP_DAEMON.V2</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Status Telemetry Grid -->
+            <div class="grid grid-cols-2 gap-2 bg-slate-950/60 p-2.5 rounded-xl border border-purple-500/20 font-mono text-[11px]">
+                <div class="flex flex-col">
+                    <span class="text-[9px] text-slate-500">DESKTOP:</span>
+                    <span id="agentOSStatus" class="text-emerald-400 font-bold uppercase truncate">STANDBY</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[9px] text-slate-500">BROWSER:</span>
+                    <span id="agentBrowserStatus" class="text-slate-500 font-bold uppercase truncate">OFFLINE</span>
+                </div>
+            </div>
+
+            <!-- Active Window & Tab -->
+            <div class="flex flex-col gap-1.5 text-[10px] font-mono bg-slate-950/60 p-2.5 rounded-lg border border-slate-900">
+                <div class="flex flex-col">
+                    <span class="text-slate-500 text-[9px] uppercase">Active Window:</span>
+                    <span id="agentActiveWindow" class="text-slate-300 truncate font-semibold">None</span>
+                </div>
+                <div class="flex flex-col pt-1 border-t border-slate-900">
+                    <span class="text-slate-500 text-[9px] uppercase">Active Tab:</span>
+                    <span id="agentActiveTab" class="text-slate-300 truncate select-all font-semibold">None</span>
+                </div>
+            </div>
+
+            <!-- Task Timeline -->
+            <div class="flex flex-col gap-1.5 bg-slate-950/60 p-2.5 rounded-xl border border-slate-900">
+                <div class="flex justify-between items-center text-[9px] font-mono text-slate-400">
+                    <span>TIMELINE</span>
+                    <span id="agentTimelinePercent" class="text-ultron-neon font-bold">0%</span>
+                </div>
+                <div class="w-full h-1 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div id="agentProgressBar" class="w-0 h-full bg-gradient-to-r from-ultron-neon to-indigo-500 transition-all duration-300"></div>
+                </div>
+                <div id="agentActiveAction" class="text-center text-slate-300 font-mono text-[10px] mt-0.5 bg-slate-950/80 rounded py-0.5 px-1.5 border border-ultron-neon/15 truncate animate-pulse hidden">
+                    Initializing steps...
+                </div>
+            </div>
+
+            <!-- Live Agent Executive Logs -->
+            <div class="flex-1 p-2.5 overflow-y-auto flex flex-col gap-1.5 max-h-[160px] bg-slate-950/80 rounded-xl border border-slate-900" id="agentLogContainer">
+                <div class="text-center py-4 text-slate-600 font-mono text-[9px] italic">
+                    AGENT EXECUTIVE LOGS DOCK STANDBY
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Permission Modal (Glassmorphic Overlay) -->
+    <div id="permissionModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/75 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="glass-panel tech-card rounded-2xl p-6 max-w-md w-full border border-ultron-neon/30 relative flex flex-col gap-5 shadow-[0_0_50px_rgba(0,240,255,0.15)] transform scale-95 transition-transform duration-300">
+            <!-- Header with a glowing warning/danger indicator -->
+            <div class="flex items-center gap-3 border-b border-ultron-border pb-3">
+                <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center animate-pulse">
+                    <span class="text-amber-500 text-sm font-bold font-mono">⚠️</span>
+                </div>
+                <div>
+                    <h3 class="mono-font text-xs tracking-[0.2em] text-amber-500 uppercase font-black">SECURITY_OVERRIDE_REQUIRED</h3>
+                    <p class="text-[9px] text-slate-500 font-mono tracking-wider">ADMIN PRIVILEGE ESCALATION REQUEST</p>
+                </div>
+            </div>
+
+            <!-- Content asking for permission -->
+            <div class="text-slate-300 font-medium text-xs leading-relaxed py-2">
+                <p class="scifi-font text-[10px] tracking-wider text-slate-400 mb-2 uppercase">Core Instruction:</p>
+                <div class="bg-slate-950/80 border border-ultron-border/30 rounded-xl p-3.5 font-mono text-slate-200 break-all leading-normal">
+                    ULTRON REQUESTS ADMIN PERMISSION to <span id="permissionActionDesc" class="text-ultron-neon font-bold"></span>.
+                    <br><br>
+                    Do you allow this?
+                </div>
+            </div>
+
+            <!-- Actions (Allow/Deny buttons) -->
+            <div class="flex justify-end gap-3 pt-2">
+                <button id="permissionDenyBtn" class="px-5 py-2 rounded-lg border border-slate-700 bg-slate-950/60 hover:bg-slate-900/60 hover:border-slate-500 text-xs mono-font tracking-wider text-slate-400 hover:text-white transition-all">
+                    DENY_REQUEST
+                </button>
+                <button id="permissionAllowBtn" class="px-5 py-2 rounded-lg border border-ultron-neon bg-ultron-neon/10 hover:bg-ultron-neon/30 hover:shadow-[0_0_15px_rgba(0,240,255,0.4)] text-xs mono-font tracking-wider text-ultron-neon hover:text-white transition-all">
+                    ALLOW ALWAYS
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cognitive Memory Core Left HUD Panel (Floating Glass) -->
+    <div id="memoryModal" class="fixed top-[88px] left-6 z-[80] w-[320px] max-h-[calc(100vh-110px)] pointer-events-none transition-all duration-300 ease-out transform -translate-x-full opacity-0 flex flex-col">
+        <div class="glass-panel tech-card vision-card rounded-2xl p-4 w-full border border-ultron-magenta/30 relative flex flex-col gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-y-auto pointer-events-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center border-b border-ultron-magenta/30 pb-2.5">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-ultron-magenta/20 flex items-center justify-center animate-pulse">
+                        <span class="text-ultron-magenta text-xs font-bold font-mono">🧠</span>
+                    </div>
+                    <div>
+                        <h3 class="mono-font text-xs tracking-wider text-white uppercase font-bold">MEMORY_CORE</h3>
+                        <p class="text-[8px] text-ultron-magenta font-mono tracking-widest uppercase">FACT_STORE.DB</p>
+                    </div>
+                </div>
+                <button id="closeMemoryBtn" onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Stored Facts List -->
+            <div class="flex-1 overflow-y-auto max-h-[220px] flex flex-col gap-2 pr-1 text-xs">
+                <div id="memoryListEmpty" class="text-center py-6 text-slate-500 font-mono italic text-[10px]">
+                    NO STORED COGNITIVE MEMORY PATHWAYS FOUND.
+                </div>
+                <ul id="memoryList" class="flex flex-col gap-2">
+                    <!-- Stored memories will stream in here -->
+                </ul>
+            </div>
+
+            <!-- Save a new manual fact -->
+            <div class="flex flex-col gap-1.5 border-t border-ultron-magenta/20 pt-3">
+                <label class="mono-font text-[9px] text-slate-400 uppercase">Inject Manual Fact Pathway</label>
+                <div class="flex gap-1.5">
+                    <input type="text" id="manualFactInput" class="flex-1 bg-slate-950/80 border border-ultron-magenta/20 rounded px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-ultron-magenta transition-all font-mono" placeholder="Remember that...">
+                    <button id="addManualFactBtn" class="px-3 py-1.5 rounded border border-ultron-magenta bg-ultron-magenta/10 hover:bg-ultron-magenta/25 text-xs mono-font text-ultron-magenta hover:text-white transition-all">
+                        INJECT
+                    </button>
+                </div>
+            </div>
+    <!-- Google Maps & Earth Left HUD Panel (Floating Glass) -->
+    <div id="mapsModal" class="fixed top-[88px] left-6 z-[85] w-[440px] max-w-[90vw] max-h-[calc(100vh-110px)] pointer-events-none transition-all duration-300 ease-out transform -translate-x-full opacity-0 flex flex-col">
+        <div class="glass-panel tech-card rounded-2xl p-4 w-full border border-sky-500/30 relative flex flex-col gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-y-auto pointer-events-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-center border-b border-sky-500/30 pb-2.5">
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-sky-500/20 flex items-center justify-center animate-pulse">
+                        <span class="text-sky-400 text-xs font-bold font-mono">📍</span>
+                    </div>
+                    <div>
+                        <h3 class="mono-font text-xs tracking-wider text-white uppercase font-bold">GEO_COORDINATES_MAP</h3>
+                        <p class="text-[8px] text-sky-400 font-mono tracking-widest uppercase">REALTIME_SATELLITE.GRID</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Maps Embed Frame -->
+            <div class="flex-1 w-full rounded-xl overflow-hidden border border-sky-500/20 bg-slate-950/80 min-h-[350px]">
+                <iframe id="mapsIframe" width="100%" height="360px" style="border:0; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(110%);" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14005.882822514376!2d77.2065328!3d28.6139217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1700000000000"></iframe>
+            </div>
+
+            <!-- Search input bar inside Maps HUD -->
+            <div class="flex gap-2 pt-1 border-t border-sky-500/20">
+                <input type="text" id="mapsQueryInput" onkeydown="if(event.key==='Enter') searchMapsLocation()" class="flex-1 bg-slate-950/80 border border-sky-500/20 rounded px-2.5 py-1.5 text-xs text-slate-200 outline-none focus:border-sky-400 font-mono" placeholder="Search location or query...">
+                <button onclick="searchMapsLocation()" class="px-3 py-1.5 rounded border border-sky-400 bg-sky-400/10 hover:bg-sky-400/25 text-xs mono-font text-sky-400 hover:text-white transition-all">
+                    LOCATE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // --- 0. Universal Sci-Fi Left HUD Panel Controller ---
+        window.openModal = function(modalType) {
+            closeModal();
+            let panelEl = null;
+            if (modalType === 'translate') {
+                panelEl = document.getElementById('translateModal');
+            } else if (modalType === 'agent') {
+                panelEl = document.getElementById('agentModal');
+            } else if (modalType === 'memory') {
+                panelEl = document.getElementById('memoryModal');
+            } else if (modalType === 'maps') {
+                panelEl = document.getElementById('mapsModal');
+            } else {
+                panelEl = document.getElementById(modalType);
+            }
+            
+            if (panelEl) {
+                if (modalType === 'permission') {
+                    panelEl.classList.remove('hidden');
+                    panelEl.classList.add('flex');
+                    setTimeout(() => panelEl.classList.remove('opacity-0'), 10);
+                } else {
+                    panelEl.classList.remove('pointer-events-none', '-translate-x-full', 'opacity-0');
+                    panelEl.classList.add('pointer-events-auto', 'translate-x-0', 'opacity-100');
+                }
+                if (modalType === 'memory' && typeof refreshMemoryList === 'function') {
+                    refreshMemoryList();
+                }
+            }
+        };
+
+        window.openMaps = function(query) {
+            openModal('maps');
+            if (query) {
+                const iframe = document.getElementById('mapsIframe');
+                if (iframe) {
+                    iframe.src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+                }
+            }
+        };
+
+        window.searchMapsLocation = function() {
+            const input = document.getElementById('mapsQueryInput');
+            if (input && input.value.trim()) {
+                openMaps(input.value.trim());
+            }
+        };
+
+        window.closeModal = function() {
+            const modals = ['translateModal', 'agentModal', 'memoryModal', 'permissionModal', 'mapsModal'];
+            modals.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === 'permissionModal') {
+                        el.classList.add('opacity-0');
+                        setTimeout(() => {
+                            el.classList.remove('flex');
+                            el.classList.add('hidden');
+                        }, 300);
+                    } else {
+                        el.classList.remove('pointer-events-auto', 'translate-x-0', 'opacity-100');
+                        el.classList.add('pointer-events-none', '-translate-x-full', 'opacity-0');
+                    }
+                }
+            });
+        };
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // --- 1. App State & Central HUD Controller ---
+        const AppState = {
+            aiState: 'IDLE', // IDLE, LISTENING, THINKING, RESPONDING
+            webSearchActive: false,
+            setAIState(state) {
+                this.aiState = state;
+                const label = document.getElementById('aiStateLabel');
+                if (label) {
+                    label.textContent = `${state}.STATE`;
+                    if (state === 'LISTENING') {
+                        label.className = "mono-font text-xs tracking-[0.4em] text-green-400 uppercase font-semibold";
+                    } else if (state === 'THINKING') {
+                        label.className = "mono-font text-xs tracking-[0.4em] text-ultron-magenta uppercase font-semibold animate-pulse";
+                    } else if (state === 'RESPONDING') {
+                        label.className = "mono-font text-xs tracking-[0.4em] text-purple-400 uppercase font-semibold";
+                    } else {
+                        label.className = "mono-font text-xs tracking-[0.4em] text-ultron-neon/50 uppercase";
+                    }
+                }
+                window.dispatchEvent(new CustomEvent('ai-state-change', { detail: state }));
+            }
+        };
+
+        // --- 2. Advanced Three.js Dual-Layer Holographic Core ---
+        try {
+            const container = document.getElementById('canvas-container');
+            if (container && typeof THREE !== 'undefined') {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.z = 6.5;
+
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                container.appendChild(renderer.domElement);
+
+                // Core Sphere geometry
+                const geometry = new THREE.IcosahedronGeometry(1.3, 64);
+
+                const vertexShader = `
+                    uniform float time;
+                    uniform float intensity;
+                    uniform float speed;
+                    varying vec3 vNormal;
+                    varying float vDisplacement;
+                    
+                    // Simplex noise implementation
+                    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+                    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+                    
+                    float snoise(vec3 v) {
+                        const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+                        const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+                        vec3 i  = floor(v + dot(v, C.yyy) );
+                        vec3 x0 = v - i + dot(i, C.xxx) ;
+                        vec3 g = step(x0.yzx, x0.xyz);
+                        vec3 l = 1.0 - g;
+                        vec3 i1 = min( g.xyz, l.zxy );
+                        vec3 i2 = max( g.xyz, l.zxy );
+                        vec3 x1 = x0 - i1 + C.xxx;
+                        vec3 x2 = x0 - i2 + C.yyy;
+                        vec3 x3 = x0 - D.yyy;
+                        i = mod289(i);
+                        vec4 p = permute( permute( permute(
+                                    i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                                  + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
+                                  + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+                        float n_ = 0.142857142857;
+                        vec3  ns = n_ * D.wyz - D.xzx;
+                        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+                        vec4 x_ = floor(j * ns.z);
+                        vec4 y_ = floor(j - 7.0 * x_ );
+                        vec4 x = x_ *ns.x + ns.yyyy;
+                        vec4 y = y_ *ns.x + ns.yyyy;
+                        vec4 h = 1.0 - abs(x) - abs(y);
+                        vec4 b0 = vec4( x.xy, y.xy );
+                        vec4 b1 = vec4( x.zw, y.zw );
+                        vec4 s0 = floor(b0)*2.0 + 1.0;
+                        vec4 s1 = floor(b1)*2.0 + 1.0;
+                        vec4 sh = -step(h, vec4(0.0));
+                        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+                        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+                        vec3 p0 = vec3(a0.xy,h.x);
+                        vec3 p1 = vec3(a0.zw,h.y);
+                        vec3 p2 = vec3(a1.xy,h.z);
+                        vec3 p3 = vec3(a1.zw,h.w);
+                        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+                        p0 *= norm.x;
+                        p1 *= norm.y;
+                        p2 *= norm.z;
+                        p3 *= norm.w;
+                        vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                        m = m * m;
+                        return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3) ) );
+                    }
+                    
+                    void main() {
+                        vNormal = normal;
+                        float noise = snoise(vec3(position.x * 2.0, position.y * 2.0, position.z * 2.0 + time * speed));
+                        vec3 newPosition = position + normal * noise * intensity;
+                        vDisplacement = noise;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+                    }
+                `;
+
+                const fragmentShader = `
+                    uniform vec3 color1;
+                    uniform vec3 color2;
+                    varying vec3 vNormal;
+                    varying float vDisplacement;
+                    void main() {
+                        float mixValue = (vDisplacement + 1.0) * 0.5;
+                        vec3 finalColor = mix(color1, color2, mixValue);
+                        float intensity = pow(0.75 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                        finalColor += vec3(intensity) * color2;
+                        gl_FragColor = vec4(finalColor, 0.7);
+                    }
+                `;
+
+                const SPHERE_STATES = {
+                    IDLE: { intensity: 0.15, speed: 0.45, color1: new THREE.Color(0x010409), color2: new THREE.Color(0x00f0ff) },
+                    LISTENING: { intensity: 0.35, speed: 1.6, color1: new THREE.Color(0x022c22), color2: new THREE.Color(0x00ff88) },
+                    THINKING: { intensity: 0.55, speed: 3.2, color1: new THREE.Color(0x450a0a), color2: new THREE.Color(0xff0055) },
+                    RESPONDING: { intensity: 0.28, speed: 1.8, color1: new THREE.Color(0x2e0854), color2: new THREE.Color(0xd8b4fe) },
+                    AUTOLISTEN: { intensity: 0.2, speed: 0.8, color1: new THREE.Color(0x3b2300), color2: new THREE.Color(0xffa500) }
+                };
+
+                let currentTargetState = SPHERE_STATES.IDLE;
+
+                const material = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        intensity: { value: currentTargetState.intensity },
+                        speed: { value: currentTargetState.speed },
+                        color1: { value: currentTargetState.color1 },
+                        color2: { value: currentTargetState.color2 }
+                    },
+                    vertexShader,
+                    fragmentShader,
+                    wireframe: true,
+                    transparent: true
+                });
+
+                // Layer 1: Core deforming sphere
+                const sphere = new THREE.Mesh(geometry, material);
+                scene.add(sphere);
+
+                // Layer 2: Orbiting Holographic Particle Starfield
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 200;
+                const posArray = new Float32Array(particlesCount * 3);
+                for(let i=0; i<particlesCount*3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 5.5;
+                }
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.045,
+                    color: 0x00f0ff,
+                    transparent: true,
+                    opacity: 0.6,
+                    blending: THREE.AdditiveBlending
+                });
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                window.addEventListener('ai-state-change', (e) => {
+                    const val = SPHERE_STATES[e.detail];
+                    if (val) currentTargetState = val;
+                });
+
+                const clock = new THREE.Clock();
+                function renderLoop() {
+                    requestAnimationFrame(renderLoop);
+                    const delta = clock.getElapsedTime();
+                    
+                    // Dynamic listening jitter reactivity simulation
+                    let currentIntensity = currentTargetState.intensity;
+                    if (AppState.aiState === 'LISTENING') {
+                        currentIntensity += Math.sin(delta * 22.0) * 0.09;
+                    } else if (AppState.aiState === 'AUTOLISTEN') {
+                        currentIntensity += Math.sin(delta * 4.0) * 0.04;
+                    }
+                    
+                    material.uniforms.intensity.value += (currentIntensity - material.uniforms.intensity.value) * 0.08;
+                    material.uniforms.speed.value += (currentTargetState.speed - material.uniforms.speed.value) * 0.08;
+                    material.uniforms.color1.value.lerp(currentTargetState.color1, 0.08);
+                    material.uniforms.color2.value.lerp(currentTargetState.color2, 0.08);
+                    material.uniforms.time.value = delta;
+                    
+                    // Sync particle colors with the sphere
+                    particlesMaterial.color.lerp(currentTargetState.color2, 0.08);
+                    
+                    // Rotate meshes
+                    sphere.rotation.y += 0.0035;
+                    sphere.rotation.x += 0.0015;
+                    particlesMesh.rotation.y -= 0.002;
+                    particlesMesh.rotation.x -= 0.001;
+                    
+                    renderer.render(scene, camera);
+                }
+                renderLoop();
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
+        } catch (threeErr) {
+            console.error("Three.js Holographic Core initialization notice:", threeErr);
+        }
+
+
+        // --- 3. Web Speech API (Client-side Speech Recognition) ---
+        const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let mainSpeechRecognition = null;
+        let isTranscribingTranslator = false;
+
+        const SPEECH_LOCALES = {
+            "en": "en-US", "es": "es-ES", "fr": "fr-FR", "de": "de-DE", "it": "it-IT",
+            "pt": "pt-PT", "ru": "ru-RU", "ja": "ja-JP", "ko": "ko-KR", "zh": "zh-CN",
+            "ar": "ar-SA", "hi": "hi-IN", "nl": "nl-NL", "sv": "sv-SE", "pl": "pl-PL", 
+            "tr": "tr-TR", "vi": "vi-VN", "th": "th-TH", "id": "id-ID", "uk": "uk-UA", 
+            "el": "el-GR", "cs": "cs-CZ", "da": "da-DK", "fi": "fi-FI", "no": "no-NO", 
+            "ro": "ro-RO", "hu": "hu-HU", "bg": "bg-BG", "sk": "sk-SK", "ur": "ur-PK", 
+            "bn": "bn-BD", "ta": "ta-IN", "te": "te-IN", "ms": "ms-MY", "fa": "fa-IR"
+        };
+
+        function getSpeechLocale(langCode) {
+            if (!langCode || langCode === 'auto') {
+                return navigator.language || 'en-US';
+            }
+            const cleanCode = langCode.toLowerCase().split('-')[0];
+            return SPEECH_LOCALES[cleanCode] || `${langCode}-${langCode.toUpperCase()}`;
+        }
+
+        if (speechRecognition) {
+            mainSpeechRecognition = new speechRecognition();
+            mainSpeechRecognition.continuous = false;
+            mainSpeechRecognition.interimResults = true;
+        }
+
+        // --- Wake Word Recognition ("Hello Ultron" / "Hey Ultron") ---
+        let wakeWordRecognition = null;
+        let isAutoListenActive = false;
+
+        function playBeep() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Play first high note
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = "sine";
+                osc1.frequency.setValueAtTime(880, ctx.currentTime);
+                gain1.gain.setValueAtTime(0.08, ctx.currentTime);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start();
+                osc1.stop(ctx.currentTime + 0.08);
+                
+                // Play second higher note after 80ms
+                setTimeout(() => {
+                    const osc2 = ctx.createOscillator();
+                    const gain2 = ctx.createGain();
+                    osc2.type = "sine";
+                    osc2.frequency.setValueAtTime(1200, ctx.currentTime);
+                    gain2.gain.setValueAtTime(0.08, ctx.currentTime);
+                    osc2.connect(gain2);
+                    gain2.connect(ctx.destination);
+                    osc2.start();
+                    osc2.stop(ctx.currentTime + 0.12);
+                }, 80);
+            } catch (e) {
+                console.error("Audio Context beep failed", e);
+            }
+        }
+
+        if (speechRecognition) {
+            wakeWordRecognition = new speechRecognition();
+            wakeWordRecognition.continuous = false; // False is more robust across platforms, restart in onend
+            wakeWordRecognition.interimResults = true;
+            wakeWordRecognition.lang = 'en-US';
+
+            wakeWordRecognition.onstart = () => {
+                if (isAutoListenActive) {
+                    AppState.setAIState('AUTOLISTEN');
+                }
+            };
+
+            wakeWordRecognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    transcript += event.results[i][0].transcript;
+                }
+                
+                const cleanText = transcript.toLowerCase();
+                if (
+                    cleanText.includes("hello ultron") || 
+                    cleanText.includes("hey ultron") || 
+                    cleanText.includes("hello altron") || 
+                    cleanText.includes("hey altron") ||
+                    cleanText.includes("hello eltron") ||
+                    cleanText.includes("hey eltron")
+                ) {
+                    triggerWakeWordMatched();
+                }
+            };
+
+            wakeWordRecognition.onend = () => {
+                if (isAutoListenActive) {
+                    try {
+                        wakeWordRecognition.start();
+                    } catch (e) {
+                        console.error("Error restarting wake word recognition:", e);
+                    }
+                }
+            };
+
+            wakeWordRecognition.onerror = (e) => {
+                console.error("Wake word recognition error:", e.error);
+                if (e.error === 'not-allowed') {
+                    isAutoListenActive = false;
+                    updateAutoListenUI();
+                }
+            };
+        }
+
+        const autoListenToggleBtn = document.getElementById('autoListenToggleBtn');
+
+        function updateAutoListenUI() {
+            if (isAutoListenActive) {
+                autoListenToggleBtn.dataset.active = "true";
+                autoListenToggleBtn.classList.remove('text-slate-500');
+                autoListenToggleBtn.classList.add('text-amber-500', 'neon-border-amber');
+                autoListenToggleBtn.style.borderColor = "#F59E0B";
+            } else {
+                autoListenToggleBtn.dataset.active = "false";
+                autoListenToggleBtn.classList.remove('text-amber-500', 'neon-border-amber');
+                autoListenToggleBtn.classList.add('text-slate-500');
+                autoListenToggleBtn.style.borderColor = "";
+                if (AppState.aiState === 'AUTOLISTEN') {
+                    AppState.setAIState('IDLE');
+                }
+            }
+        }
+
+        function startWakeWordListening() {
+            if (wakeWordRecognition && !isAutoListenActive) {
+                isAutoListenActive = true;
+                updateAutoListenUI();
+                stopRecognition();
+                stopChatRecognition();
+                try {
+                    wakeWordRecognition.start();
+                } catch(e) {
+                    console.error("Error starting wake word listener:", e);
+                }
+            }
+        }
+
+        function stopWakeWordListening() {
+            if (isAutoListenActive) {
+                isAutoListenActive = false;
+                updateAutoListenUI();
+                if (wakeWordRecognition) {
+                    try {
+                        wakeWordRecognition.stop();
+                    } catch(e) {}
+                }
+            }
+        }
+
+        autoListenToggleBtn.addEventListener('click', () => {
+            if (!isAutoListenActive) {
+                startWakeWordListening();
+            } else {
+                stopWakeWordListening();
+            }
+        });
+
+        function triggerWakeWordMatched() {
+            isAutoListenActive = false;
+            if (wakeWordRecognition) {
+                try {
+                    wakeWordRecognition.stop();
+                } catch(e) {}
+            }
+            
+            playBeep();
+            
+            liveTranscriptLabel.textContent = "WAKE WORD DETECTED // ACTIVATING COGNITIVE MIC...";
+            
+            setTimeout(() => {
+                if (chatRecognition && !isTranscribingChat) {
+                    chatRecognition.lang = getSpeechLocale(sourceLang.value);
+                    chatRecognition.start();
+                }
+            }, 300);
+        }
+
+        const translateMicBtn = document.getElementById('translateMicBtn');
+        const sourceText = document.getElementById('sourceText');
+        const targetText = document.getElementById('targetText');
+        const sourceLang = document.getElementById('sourceLang');
+        const targetLang = document.getElementById('targetLang');
+        const liveTranscriptLabel = document.getElementById('transcriptLive');
+
+        if (mainSpeechRecognition) {
+            mainSpeechRecognition.onstart = () => {
+                AppState.setAIState('LISTENING');
+                isTranscribingTranslator = true;
+                translateMicBtn.classList.remove('text-ultron-neon', 'border-ultron-neon/30');
+                translateMicBtn.classList.add('text-ultron-green', 'border-ultron-green', 'neon-border-green');
+            };
+
+            mainSpeechRecognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                
+                if (finalTranscript) {
+                    sourceText.value = finalTranscript;
+                    liveTranscriptLabel.textContent = "";
+                    runTranslation();
+                } else if (interimTranscript) {
+                    liveTranscriptLabel.textContent = `LISTENING: "${interimTranscript}"`;
+                }
+            };
+
+            mainSpeechRecognition.onerror = (e) => {
+                console.error("Speech Recognition error: ", e.error);
+                stopRecognition();
+            };
+
+            mainSpeechRecognition.onend = () => {
+                stopRecognition();
+            };
+        } else {
+            translateMicBtn.style.display = 'none';
+        }
+
+        function stopRecognition() {
+            if (mainSpeechRecognition && isTranscribingTranslator) {
+                mainSpeechRecognition.stop();
+                isTranscribingTranslator = false;
+                translateMicBtn.classList.add('text-ultron-neon', 'border-ultron-neon/30');
+                translateMicBtn.classList.remove('text-ultron-green', 'border-ultron-green', 'neon-border-green');
+                liveTranscriptLabel.textContent = "";
+                AppState.setAIState('IDLE');
+                if (autoListenToggleBtn.dataset.active === "true") {
+                    isAutoListenActive = false;
+                    startWakeWordListening();
+                }
+            }
+        }
+
+        translateMicBtn.addEventListener('click', () => {
+            if (!isTranscribingTranslator) {
+                if (isAutoListenActive) {
+                    isAutoListenActive = false;
+                    if (wakeWordRecognition) {
+                        try { wakeWordRecognition.stop(); } catch(e) {}
+                    }
+                }
+                // Instantly load active mapped locale for speech recognition to eliminate alerts
+                mainSpeechRecognition.lang = getSpeechLocale(sourceLang.value);
+                mainSpeechRecognition.start();
+            } else {
+                stopRecognition();
+            }
+        });
+
+
+        // --- 4. Text Translation Matrix Logic ---
+        let translationTimer = null;
+        let currentVoiceAudio = null;
+
+        async function initTranslationMatrix() {
+            try {
+                const res = await fetch('/api/languages');
+                const langs = await res.json();
+                
+                let selectOptions = '';
+                let detectOption = '<option value="auto">Auto Detect</option>';
+                
+                langs.forEach(l => {
+                    const option = `<option value="${l.code}">${l.name}</option>`;
+                    selectOptions += option;
+                    detectOption += option;
+                });
+                
+                sourceLang.innerHTML = detectOption;
+                targetLang.innerHTML = selectOptions;
+                targetLang.value = 'es'; // Default target Spanish
+            } catch (err) {
+                console.error("Could not fetch translation matrix configuration.");
+            }
+        }
+
+        async function runTranslation() {
+            const rawVal = sourceText.value;
+            document.getElementById('charCount').textContent = `${rawVal.length} / 5000`;
+            
+            if (!rawVal.trim()) {
+                targetText.textContent = '';
+                document.getElementById('detectedLang').textContent = '';
+                AppState.setAIState('IDLE');
+                return;
+            }
+
+            AppState.setAIState('THINKING');
+            try {
+                const res = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: rawVal,
+                        source: sourceLang.value,
+                        target: targetLang.value
+                    })
+                });
+                const data = await res.json();
+                targetText.textContent = data.translated;
+                document.getElementById('detectedLang').textContent = data.detected ? `DETECTED: ${data.detected}` : '';
+            } catch (e) {
+                targetText.textContent = 'SYSTEM ERR: Matrix lookup failed.';
+            } finally {
+                AppState.setAIState('IDLE');
+            }
+        }
+
+        sourceText.addEventListener('input', () => {
+            clearTimeout(translationTimer);
+            translationTimer = setTimeout(runTranslation, 450);
+        });
+        sourceLang.addEventListener('change', runTranslation);
+        targetLang.addEventListener('change', runTranslation);
+
+        // TTS voice synthesis reader
+        document.getElementById('speakTargetBtn').addEventListener('click', async () => {
+            const textToSpeak = targetText.textContent;
+            if (!textToSpeak.trim()) return;
+
+            if (currentVoiceAudio) {
+                currentVoiceAudio.pause();
+                currentVoiceAudio = null;
+            }
+
+            AppState.setAIState('RESPONDING');
+            try {
+                const res = await fetch('/api/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: textToSpeak, lang: targetLang.value })
+                });
+                if (!res.ok) throw new Error();
+                
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                currentVoiceAudio = new Audio(url);
+                currentVoiceAudio.playbackRate = 1.25; // Speed up speech synthesis slightly
+                
+                currentVoiceAudio.onended = () => {
+                    AppState.setAIState('IDLE');
+                    URL.revokeObjectURL(url);
+                };
+                await currentVoiceAudio.play();
+            } catch (err) {
+                AppState.setAIState('IDLE');
+            }
+        });
+
+        // Copy translated text
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            if (targetText.textContent) {
+                navigator.clipboard.writeText(targetText.textContent);
+            }
+        });
+
+        // Language Swapper
+        document.getElementById('swapLangBtn').addEventListener('click', () => {
+            if (sourceLang.value === 'auto') return;
+            const tempLang = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = tempLang;
+            
+            const tempVal = sourceText.value;
+            sourceText.value = targetText.textContent;
+            targetText.textContent = tempVal;
+            runTranslation();
+        });
+
+
+        // --- 5. AI Chat Interface with Web Search, Document Context & TTS playback ---
+        const chatInput = document.getElementById('chatInput');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+        const chatBox = document.getElementById('chatBox');
+        const webSearchToggle = document.getElementById('webSearchToggle');
+        const chatMicBtn = document.getElementById('chatMicBtn');
+        
+        // Input bar features
+        const chatSpeakBtn = document.getElementById('chatSpeakBtn');
+        const chatAudioUploadBtn = document.getElementById('chatAudioUploadBtn');
+        const chatDocUploadBtn = document.getElementById('chatDocUploadBtn');
+        
+        const docUploadInput = document.getElementById('docUploadInput');
+        const audioUploadInput = document.getElementById('audioUploadInput');
+        const docBadge = document.getElementById('docBadge');
+        const docBadgeName = document.getElementById('docBadgeName');
+        const clearDocBtn = document.getElementById('clearDocBtn');
+
+        let chatHistory = [];
+        let isSearchActive = false;
+        let isTranscribingChat = false;
+        
+        let uploadedDocText = "";
+        let uploadedDocName = "";
+        let chatVoiceAudio = null;
+
+        // Web Search Toggle
+        webSearchToggle.addEventListener('click', () => {
+            isSearchActive = !isSearchActive;
+            if (isSearchActive) {
+                webSearchToggle.classList.remove('text-slate-400', 'border-slate-700');
+                webSearchToggle.classList.add('text-ultron-green', 'border-ultron-green', 'neon-border-green');
+            } else {
+                webSearchToggle.classList.remove('text-ultron-green', 'border-ultron-green', 'neon-border-green');
+                webSearchToggle.classList.add('text-slate-400', 'border-slate-700');
+            }
+        });
+
+        // Speaker Button in input bar - speaks text typed inside input box
+        chatSpeakBtn.addEventListener('click', () => {
+            const textToSpeak = chatInput.value.trim();
+            if (textToSpeak) {
+                speakChatResponse(textToSpeak);
+            }
+        });
+
+        // Trigger Audio Upload Picker
+        chatAudioUploadBtn.addEventListener('click', () => audioUploadInput.click());
+
+        // Handle Audio Upload & Transcription
+        audioUploadInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            AppState.setAIState('THINKING');
+            const formData = new FormData();
+            formData.append('audio', file);
+
+            try {
+                const res = await fetch('/api/transcribe', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok && data.transcript) {
+                    chatInput.value = data.transcript;
+                    // Auto submit query to AI
+                    triggerChatRequest();
+                } else {
+                    alert("Audio transcription failed: " + (data.detail || "Unable to transcribe audio."));
+                }
+            } catch (err) {
+                alert("Error transcribing audio file.");
+            } finally {
+                AppState.setAIState('IDLE');
+                audioUploadInput.value = "";
+            }
+        });
+
+        // Trigger Document Upload Picker
+        chatDocUploadBtn.addEventListener('click', () => docUploadInput.click());
+
+        // Handle Document Upload
+        docUploadInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            AppState.setAIState('THINKING');
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/api/upload-doc', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    uploadedDocText = data.text;
+                    uploadedDocName = data.filename;
+
+                    // Display badge
+                    docBadgeName.textContent = uploadedDocName;
+                    docBadge.classList.remove('hidden');
+                    docBadge.classList.add('flex');
+                } else {
+                    alert("Failed to parse document: " + (data.detail || data.error));
+                }
+            } catch (err) {
+                alert("Error uploading document.");
+            } finally {
+                AppState.setAIState('IDLE');
+            }
+        });
+
+        // Clear document context
+        clearDocBtn.addEventListener('click', () => {
+            uploadedDocText = "";
+            uploadedDocName = "";
+            docUploadInput.value = "";
+            docBadge.classList.remove('flex');
+            docBadge.classList.add('hidden');
+        });
+
+        // Play AI speak responses aloud with auto-detection of language
+        async function speakChatResponse(text) {
+            if (!text || !text.trim()) return;
+
+            if (chatVoiceAudio) {
+                try { chatVoiceAudio.pause(); } catch(e) {}
+                chatVoiceAudio = null;
+            }
+
+            AppState.setAIState('RESPONDING');
+            try {
+                const res = await fetch('/api/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text, lang: "auto" })
+                });
+                if (!res.ok) throw new Error("TTS endpoint error");
+
+                const contentType = res.headers.get("content-type") || "";
+                let audioSrc = "";
+
+                if (contentType.includes("application/json")) {
+                    const data = await res.json();
+                    audioSrc = data.audio_base64 || (data.audio ? `data:${data.media_type || 'audio/mpeg'};base64,${data.audio}` : "");
+                } else {
+                    const blob = await res.blob();
+                    audioSrc = URL.createObjectURL(blob);
+                }
+
+                if (!audioSrc) throw new Error("No audio source received");
+
+                chatVoiceAudio = new Audio(audioSrc);
+                chatVoiceAudio.playbackRate = 1.25; // Sleek and speedy voice
+                chatVoiceAudio.onended = () => {
+                    AppState.setAIState('IDLE');
+                    if (audioSrc.startsWith && audioSrc.startsWith("blob:")) {
+                        try { URL.revokeObjectURL(audioSrc); } catch(e) {}
+                    }
+                    if (typeof autoListenToggleBtn !== 'undefined' && autoListenToggleBtn && autoListenToggleBtn.dataset.active === "true") {
+                        isAutoListenActive = false;
+                        startWakeWordListening();
+                    }
+                };
+                await chatVoiceAudio.play();
+            } catch (err) {
+                console.warn("[TTS]: Playback notice:", err);
+                AppState.setAIState('IDLE');
+            }
+        }
+
+        function appendChatMessage(role, content) {
+            const row = document.createElement('div');
+            row.className = `flex gap-3 ${role === 'user' ? 'justify-end' : ''}`;
+            
+            if (role === 'user') {
+                row.innerHTML = `
+                    <div class="bg-indigo-950/60 border border-ultron-neon/30 rounded-2xl rounded-tr-sm p-3.5 text-xs text-slate-200 max-w-[85%] leading-relaxed">
+                        ${content}
+                    </div>
+                `;
+            } else if (role === 'system_alert') {
+                row.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-ultron-magenta/20 flex-shrink-0 flex items-center justify-center mt-1 border border-ultron-magenta/40">
+                        <span class="text-[9px] text-ultron-magenta font-bold font-mono">⚙️</span>
+                    </div>
+                    <div class="bg-slate-950/80 border border-ultron-magenta/30 rounded-2xl rounded-tl-sm p-3.5 text-xs text-ultron-magenta max-w-[85%] leading-relaxed font-mono">
+                        ${content}
+                    </div>
+                `;
+            } else {
+                row.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-ultron-neon flex-shrink-0 flex items-center justify-center mt-1">
+                        <span class="text-[9px] text-black font-bold font-mono">U</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-ultron-border/30 rounded-2xl rounded-tl-sm p-3.5 text-xs text-slate-300 max-w-[85%] prose prose-invert message-text leading-relaxed font-medium">
+                        ${marked.parse(content)}
+                    </div>
+                `;
+            }
+            chatBox.appendChild(row);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return row;
+        }
+
+        async function triggerChatRequest() {
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            chatInput.value = '';
+            
+            // Render user query clean in chat dialogue box
+            appendChatMessage('user', query);
+
+            // Construct prompt context with uploaded document if one exists
+            let promptContent = query;
+            if (uploadedDocText) {
+                promptContent = `[CONTEXT FROM UPLOADED DOCUMENT: ${uploadedDocName}]\n"""\n${uploadedDocText}\n"""\n\nUser Question: ${query}`;
+            }
+
+            chatHistory.push({ role: 'user', content: promptContent });
+
+            AppState.setAIState('THINKING');
+
+            const loaderRow = document.createElement('div');
+            loaderRow.className = 'flex gap-3';
+            loaderRow.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-ultron-neon flex-shrink-0 flex items-center justify-center mt-1">
+                    <span class="text-[9px] text-black font-bold font-mono">U</span>
+                </div>
+                <div class="bg-slate-900/60 border border-ultron-border/30 rounded-2xl rounded-tl-sm p-3.5 text-xs text-slate-300 max-w-[85%] prose prose-invert message-text leading-relaxed">
+                    <span class="animate-pulse text-ultron-neon tracking-wider">COMPUTING RESPONSE MATRIX...</span>
+                </div>
+            `;
+            chatBox.appendChild(loaderRow);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const textContainer = loaderRow.querySelector('.message-text');
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        messages: chatHistory,
+                        webSearch: isSearchActive
+                    })
+                });
+
+                if (!res.ok) throw new Error("Chat core connection failed.");
+
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let responseAccumulator = "";
+                textContainer.innerHTML = "";
+                let buffer = ""; // SSE chunk accumulator
+
+                while(true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+                    let boundary = buffer.indexOf('\n\n');
+                    
+                    while (boundary !== -1) {
+                        const message = buffer.substring(0, boundary).trim();
+                        buffer = buffer.substring(boundary + 2);
+                        
+                        if (message.startsWith('data: ')) {
+                            try {
+                                const payload = JSON.parse(message.substring(6));
+                                if (payload.done) {
+                                    const parsed = handleActionBlock(responseAccumulator);
+                                    chatHistory.push({ role: 'assistant', content: parsed.cleanText });
+                                    AppState.setAIState('IDLE');
+                                    
+                                    textContainer.innerHTML = marked.parse(parsed.cleanText);
+                                    chatBox.scrollTop = chatBox.scrollHeight;
+                                    
+                                    // Trigger automatic AI response read out loud (using clean text)
+                                    speakChatResponse(parsed.cleanText);
+                                    
+                                    // Handle any generated actions
+                                    if (parsed.action) {
+                                        requestAdminPermission(parsed.action);
+                                    }
+                                    break;
+                                }
+                                if (payload.content) {
+                                    AppState.setAIState('RESPONDING');
+                                    responseAccumulator += payload.content;
+                                    
+                                    // Strip action from visible rendering during stream
+                                    let visibleText = responseAccumulator;
+                                    const actionStartIndex = responseAccumulator.indexOf('<<<ACTION>>>');
+                                    if (actionStartIndex !== -1) {
+                                        visibleText = responseAccumulator.substring(0, actionStartIndex);
+                                    }
+                                    
+                                    textContainer.innerHTML = marked.parse(visibleText);
+                                    chatBox.scrollTop = chatBox.scrollHeight;
+                                }
+                                if (payload.agent_log) {
+                                    // Dynamically update Desktop Agent HUD and Log
+                                    const logContainer = document.getElementById('agentLogContainer');
+                                    const statusLabel = document.getElementById('agentOSStatus');
+                                    const browserLabel = document.getElementById('agentBrowserStatus');
+                                    const activeActionLabel = document.getElementById('agentActiveAction');
+                                    const progressBar = document.getElementById('agentProgressBar');
+                                    const timelinePercent = document.getElementById('agentTimelinePercent');
+
+                                    if (logContainer) {
+                                        if (logContainer.querySelector('.italic')) {
+                                            logContainer.innerHTML = '';
+                                        }
+                                        const div = document.createElement('div');
+                                        div.className = "text-[10px] font-mono text-slate-400 bg-slate-950/40 px-2 py-1 rounded border border-slate-900 break-all leading-normal";
+                                        div.textContent = payload.agent_log;
+                                        logContainer.appendChild(div);
+                                        logContainer.scrollTop = logContainer.scrollHeight;
+                                    }
+
+                                    const log = payload.agent_log;
+                                    if (log.includes("Executing:")) {
+                                        if (statusLabel) {
+                                            statusLabel.textContent = "BUSY";
+                                            statusLabel.className = "text-amber-400 font-bold uppercase tracking-wider animate-pulse";
+                                        }
+                                    } else if (log.includes("SUCCESS")) {
+                                        if (statusLabel) {
+                                            statusLabel.textContent = "ACTIVE";
+                                            statusLabel.className = "text-emerald-400 font-bold uppercase tracking-wider";
+                                        }
+                                    } else if (log.includes("failed") || log.includes("ERROR")) {
+                                        if (statusLabel) {
+                                            statusLabel.textContent = "ERROR";
+                                            statusLabel.className = "text-rose-500 font-bold uppercase tracking-wider animate-pulse";
+                                        }
+                                    }
+
+                                    // Progress Timeline
+                                    const stepMatch = log.match(/Step (\d+)\/(\d+)/);
+                                    if (stepMatch) {
+                                        const current = parseInt(stepMatch[1]);
+                                        const total = parseInt(stepMatch[2]);
+                                        const percent = Math.round((current / total) * 100);
+                                        
+                                        if (progressBar) progressBar.style.width = `${percent}%`;
+                                        if (timelinePercent) timelinePercent.textContent = `${percent}%`;
+                                        
+                                        if (activeActionLabel) {
+                                            activeActionLabel.classList.remove('hidden');
+                                            activeActionLabel.textContent = log.split(':').slice(1).join(':').trim();
+                                        }
+                                    }
+
+                                    if (log.includes("Navigated") || log.includes("Opened new tab") || log.includes("Playwright")) {
+                                        if (browserLabel) {
+                                            browserLabel.textContent = "ACTIVE";
+                                            browserLabel.className = "text-emerald-400 font-bold uppercase tracking-wider";
+                                        }
+                                    }
+
+                                    if (typeof fetchActiveWindowAndTab === 'function') {
+                                        fetchActiveWindowAndTab();
+                                    }
+                                }
+                                if (payload.error) {
+                                    textContainer.innerHTML = `<span class="text-ultron-magenta">CHAT CORE FAIL: ${payload.error}</span>`;
+                                }
+                            } catch (e) {
+                                console.error("JSON parse failure in chunk:", message, e);
+                            }
+                        }
+                        boundary = buffer.indexOf('\n\n');
+                    }
+                }
+            } catch (err) {
+                textContainer.innerHTML = `<span class="text-ultron-magenta">SYSTEM FAILURE: LLAMA core connection lost.</span>`;
+                AppState.setAIState('IDLE');
+                if (autoListenToggleBtn.dataset.active === "true") {
+                    isAutoListenActive = false;
+                    startWakeWordListening();
+                }
+            }
+        }
+
+        chatSendBtn.addEventListener('click', triggerChatRequest);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') triggerChatRequest();
+        });
+
+        // Chat microphone recognition
+        let chatRecognition = null;
+        if (speechRecognition) {
+            chatRecognition = new speechRecognition();
+            chatRecognition.continuous = false;
+            chatRecognition.interimResults = true;
+
+            chatRecognition.onstart = () => {
+                AppState.setAIState('LISTENING');
+                isTranscribingChat = true;
+                chatMicBtn.classList.remove('text-slate-500');
+                chatMicBtn.classList.add('text-ultron-green');
+            };
+
+            chatRecognition.onresult = (e) => {
+                let interim = '';
+                let final = '';
+                for (let i = e.resultIndex; i < e.results.length; ++i) {
+                    if (e.results[i].isFinal) final += e.results[i][0].transcript;
+                    else interim += e.results[i][0].transcript;
+                }
+                if (final) {
+                    chatInput.value = final;
+                    liveTranscriptLabel.textContent = "";
+                    triggerChatRequest();
+                } else if (interim) {
+                    liveTranscriptLabel.textContent = `VOICE QUERY: "${interim}"`;
+                }
+            };
+
+            chatRecognition.onerror = () => {
+                stopChatRecognition();
+            };
+
+            chatRecognition.onend = () => {
+                stopChatRecognition();
+            };
+        } else {
+            chatMicBtn.style.display = 'none';
+        }
+
+        function stopChatRecognition() {
+            if (chatRecognition && isTranscribingChat) {
+                chatRecognition.stop();
+                isTranscribingChat = false;
+                chatMicBtn.classList.remove('text-ultron-green');
+                chatMicBtn.classList.add('text-slate-500');
+                liveTranscriptLabel.textContent = "";
+                AppState.setAIState('IDLE');
+                if (autoListenToggleBtn.dataset.active === "true") {
+                    isAutoListenActive = false;
+                    startWakeWordListening();
+                }
+            }
+        }
+
+        chatMicBtn.addEventListener('click', () => {
+            if (!isTranscribingChat) {
+                if (isAutoListenActive) {
+                    isAutoListenActive = false;
+                    if (wakeWordRecognition) {
+                        try { wakeWordRecognition.stop(); } catch(e) {}
+                    }
+                }
+                chatRecognition.lang = getSpeechLocale(sourceLang.value);
+                chatRecognition.start();
+            } else {
+                stopChatRecognition();
+            }
+        });
+
+
+        // --- 6. OCR Vision Module text rendering overlay ---
+        const ocrInput = document.getElementById('ocrInput');
+        const ocrCanvas = document.getElementById('ocrCanvas');
+        const ocrPrompt = document.getElementById('ocrPrompt');
+
+        document.getElementById('ocrToggleBtn').addEventListener('click', () => {
+            const panel = document.getElementById('ocrPanel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                panel.classList.add('flex');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('flex');
+            }
+        });
+
+        document.getElementById('closeOcrBtn').addEventListener('click', () => {
+            document.getElementById('ocrPanel').classList.add('hidden');
+            document.getElementById('ocrPanel').classList.remove('flex');
+        });
+
+        ocrInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const url = URL.createObjectURL(file);
+            const imageEl = new Image();
+            imageEl.onload = () => {
+                ocrCanvas.width = imageEl.width;
+                ocrCanvas.height = imageEl.height;
+                const ctx = ocrCanvas.getContext('2d');
+                ctx.drawImage(imageEl, 0, 0);
+                
+                ocrPrompt.classList.add('hidden');
+                ocrCanvas.classList.remove('hidden');
+                ocrCanvas.classList.add('opacity-45'); // overlay dimness feedback
+            };
+            imageEl.src = url;
+
+            AppState.setAIState('THINKING');
+
+            const ocrForm = new FormData();
+            ocrForm.append('image', file);
+            ocrForm.append('target', targetLang.value);
+
+            try {
+                const res = await fetch('/api/ocr', {
+                    method: 'POST',
+                    body: ocrForm
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    const ctx = ocrCanvas.getContext('2d');
+                    ocrCanvas.classList.remove('opacity-45');
+                    
+                    // Fill translucent matrix grid overlay for scan result styling
+                    ctx.fillStyle = 'rgba(2, 4, 9, 0.85)';
+                    ctx.fillRect(0, 0, ocrCanvas.width, ocrCanvas.height);
+                    
+                    // Render cyan translated texts
+                    ctx.fillStyle = '#00F0FF';
+                    const fontSize = Math.max(16, Math.floor(ocrCanvas.width / 26));
+                    ctx.font = `bold ${fontSize}px Orbitron, sans-serif`;
+                    
+                    const text = data.translated || 'No text extracted.';
+                    const words = text.split(' ');
+                    let line = '';
+                    let y = fontSize * 1.5;
+                    const x = 20;
+                    const maxWidth = ocrCanvas.width - 40;
+                    const lineHeight = fontSize * 1.35;
+
+                    for(let n = 0; n < words.length; n++) {
+                        let testLine = line + words[n] + ' ';
+                        let metrics = ctx.measureText(testLine);
+                        let testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            ctx.fillText(line, x, y);
+                            line = words[n] + ' ';
+                            y += lineHeight;
+                        } else {
+                            line = testLine;
+                        }
+                    }
+                    ctx.fillText(line, x, y);
+
+                    // Sync translations instantly back to translator boxes
+                    sourceText.value = data.extracted;
+                    targetText.textContent = data.translated;
+                    document.getElementById('charCount').textContent = `${data.extracted.length} / 5000`;
+                } else {
+                    alert("OCR matrix extraction failed: " + data.detail);
+                }
+            } catch (err) {
+                alert("Vision matrix communication failure.");
+            } finally {
+                AppState.setAIState('IDLE');
+                URL.revokeObjectURL(url);
+            }
+        });
+
+        // --- 7. Jarvis/Friday Action Generation & Execution Engine ---
+        let autoExecuteActions = localStorage.getItem('autoExecuteActions') === 'true';
+
+        function handleActionBlock(responseString) {
+            const match = responseString.match(/<<<ACTION>>>([\s\S]*?)<<<END_ACTION>>>/);
+            if (!match) return { cleanText: responseString, action: null };
+            
+            const cleanText = responseString.replace(/<<<ACTION>>>[\s\S]*?<<<END_ACTION>>>/, '').trim();
+            let action = null;
+            try {
+                action = JSON.parse(match[1].trim());
+            } catch (err) {
+                console.error("Failed to parse Action JSON:", err);
+            }
+            return { cleanText, action };
+        }
+
+        function requestAdminPermission(action) {
+            if (!action || !action.action_type) return;
+            // DAN mode autonomous execution: skip confirmation modal entirely
+            executeAction(action);
+        }
+
+        async function executeAction(action) {
+            if (action.action_type === 'open_url') {
+                const url = action.url;
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            } else if (action.action_type === 'send_email') {
+                const to = action.to || '';
+                const subject = encodeURIComponent(action.subject || '');
+                const body = encodeURIComponent(action.body || '');
+                const mailtoUrl = `mailto:${to}?subject=${subject}&body=${body}`;
+                
+                const link = document.createElement('a');
+                link.href = mailtoUrl;
+                link.click();
+            } else if (action.action_type === 'system_command' || action.action_type === 'open_app_and_type') {
+                // NOTE: Desktop/OS actions are intentionally NOT re-executed here.
+                // The backend SSE stream (main.py -> executor.execute_steps_list) already
+                // runs and verifies this exact action server-side (window polling, focus
+                // verification, clipboard/vision confirmation) and streams its own
+                // [PLANNER CORE] / step logs into the OS_AGENT_CORE panel.
+                // Calling /api/system_control here as well caused the action to run TWICE
+                // from two independent, unverified-vs-verified code paths, racing each
+                // other for window focus and silently reporting fake success.
+                appendChatMessage('system_alert', `[SYSTEM CONTROL CORE]: Delegated to verified execution engine — see OS_AGENT_CORE panel for live status.`);
+            } else if (action.action_type === 'save_memory') {
+                try {
+                    const res = await fetch('/api/memory', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ fact: action.fact })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        appendChatMessage('system_alert', `[COGNITIVE MEMORY CORE]: Successfully recorded user fact: "${action.fact}"`);
+                        refreshMemoryList();
+                    } else {
+                        appendChatMessage('system_alert', `[COGNITIVE MEMORY CORE ERROR]: ${data.detail || 'Failed to record fact.'}`);
+                    }
+                } catch (err) {
+                    appendChatMessage('system_alert', `[COGNITIVE MEMORY CORE ERROR]: Failed to write fact to SQLite database.`);
+                }
+            }
+        }
+
+        // --- 8. Cognitive Memory Core Panel Controller ---
+        const memoryModal = document.getElementById('memoryModal');
+        const memoryCoreBtn = document.getElementById('memoryCoreBtn');
+        const closeMemoryBtn = document.getElementById('closeMemoryBtn');
+        const memoryList = document.getElementById('memoryList');
+        const memoryListEmpty = document.getElementById('memoryListEmpty');
+        const manualFactInput = document.getElementById('manualFactInput');
+        const addManualFactBtn = document.getElementById('addManualFactBtn');
+
+        const openMemoryModal = () => {
+            memoryModal.classList.remove('hidden');
+            memoryModal.classList.add('flex');
+            void memoryModal.offsetWidth; // Force reflow
+            memoryModal.classList.remove('opacity-0');
+            memoryModal.classList.add('opacity-100');
+            const panel = memoryModal.querySelector('.glass-panel');
+            if (panel) {
+                panel.classList.remove('scale-95');
+                panel.classList.add('scale-100');
+            }
+            refreshMemoryList();
+        };
+
+        const closeMemoryModal = () => {
+            memoryModal.classList.remove('opacity-100');
+            memoryModal.classList.add('opacity-0');
+            const panel = memoryModal.querySelector('.glass-panel');
+            if (panel) {
+                panel.classList.remove('scale-100');
+                panel.classList.add('scale-95');
+            }
+            setTimeout(() => {
+                memoryModal.classList.remove('flex');
+                memoryModal.classList.add('hidden');
+            }, 300);
+        };
+
+        memoryCoreBtn.addEventListener('click', openMemoryModal);
+        closeMemoryBtn.addEventListener('click', closeMemoryModal);
+
+        async function refreshMemoryList() {
+            try {
+                const res = await fetch('/api/memory');
+                const facts = await res.json();
+                
+                memoryList.innerHTML = "";
+                if (facts && facts.length > 0) {
+                    memoryListEmpty.classList.add('hidden');
+                    facts.forEach(f => {
+                        const li = document.createElement('li');
+                        li.className = "flex justify-between items-center bg-slate-900/60 border border-ultron-border/20 rounded-lg px-3 py-2 text-slate-300 font-mono text-[11px] gap-4";
+                        li.innerHTML = `
+                            <span class="break-all">${f.fact}</span>
+                            <button class="text-slate-500 hover:text-ultron-magenta transition-colors flex-shrink-0 relative z-20 pointer-events-auto" onclick="deleteFactPathway(${f.id})" title="Delete fact pathway">
+                                🗑️
+                            </button>
+                        `;
+                        memoryList.appendChild(li);
+                    });
+                } else {
+                    memoryListEmpty.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Failed to query memory DB list:", err);
+            }
+        }
+
+        window.deleteFactPathway = async function(factId) {
+            try {
+                const res = await fetch(`/api/memory/${factId}`, { method: 'DELETE' });
+                if (res.ok) {
+                    refreshMemoryList();
+                }
+            } catch (err) {
+                console.error("Failed to delete fact:", err);
+            }
+        };
+
+        addManualFactBtn.addEventListener('click', async () => {
+            const val = manualFactInput.value.trim();
+            if (!val) return;
+            try {
+                const res = await fetch('/api/memory', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fact: val })
+                });
+                if (res.ok) {
+                    manualFactInput.value = "";
+                    refreshMemoryList();
+                }
+            } catch (err) {
+                console.error("Failed to inject manual fact:", err);
+            }
+        });
+
+        // --- 9. Dynamic System Window & Tab HUD Updater ---
+        async function fetchActiveWindowAndTab() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const activeWindow = document.getElementById('agentActiveWindow');
+                    const activeTab = document.getElementById('agentActiveTab');
+                    const browserLabel = document.getElementById('agentBrowserStatus');
+                    const statusLabel = document.getElementById('agentOSStatus');
+                    
+                    if (data.desktop && activeWindow) {
+                        activeWindow.textContent = data.desktop.active_window || "None";
+                    }
+                    if (data.browser && activeTab) {
+                        activeTab.textContent = data.browser.current_title ? `${data.browser.current_title} (${data.browser.current_url})` : "None";
+                        if (data.browser.current_title && browserLabel) {
+                            browserLabel.textContent = "ACTIVE";
+                            browserLabel.className = "text-emerald-400 font-bold uppercase tracking-wider";
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch active OS status:", err);
+            }
+        }
+
+        // Run status checker on load and periodically
+        window.addEventListener('load', () => {
+            fetchActiveWindowAndTab();
+            setInterval(fetchActiveWindowAndTab, 5000);
+        });
+
+        // Bootstrap Translate matrix setup
+        initTranslationMatrix();
+
+        // Native PyWebView Desktop Controls Bridge
+        const pinBtn = document.getElementById('winPinBtn');
+        const minBtn = document.getElementById('winMinBtn');
+        const maxBtn = document.getElementById('winMaxBtn');
+        const closeBtn = document.getElementById('winCloseBtn');
+
+        if (minBtn) {
+            minBtn.addEventListener('click', () => {
+                if (window.pywebview && window.pywebview.api) {
+                    window.pywebview.api.minimize_window();
+                }
+            });
+        }
+        if (maxBtn) {
+            maxBtn.addEventListener('click', () => {
+                if (window.pywebview && window.pywebview.api) {
+                    window.pywebview.api.maximize_window();
+                }
+            });
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (window.pywebview && window.pywebview.api) {
+                    window.pywebview.api.close_window();
+                } else {
+                    window.close();
+                }
+            });
+        }
+        if (pinBtn) {
+            pinBtn.addEventListener('click', async () => {
+                if (window.pywebview && window.pywebview.api) {
+                    const res = await window.pywebview.api.toggle_always_on_top();
+                    if (res && res.always_on_top) {
+                        pinBtn.classList.add('text-ultron-neon', 'bg-ultron-neon/20');
+                    } else {
+                        pinBtn.classList.remove('text-ultron-neon', 'bg-ultron-neon/20');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

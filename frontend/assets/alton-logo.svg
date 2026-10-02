@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="48" viewBox="0 0 140 48" fill="none">
+  <!-- Black Alt key -->
+  <rect x="2" y="8" rx="6" ry="6" width="78" height="32" fill="#0b0b0b" stroke="#222" />
+  <text x="41" y="28" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="600">Alt</text>
+
+  <!-- Small spacer -->
+  <!-- Green ON button -->
+  <rect x="92" y="10" rx="8" ry="8" width="40" height="28" fill="#00C853" />
+  <text x="112" y="28" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#002b00" font-weight="700">ON</text>
+</svg>

@@ -1,0 +1,40 @@
+/* custom.css */
+.glass-panel {
+    background: var(--ultron-glass, rgba(15, 23, 42, 0.65));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Scrollbar for Sci-Fi look */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 240, 255, 0.6);
+}
+
+/* Animations */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
+}
+
+.glow-active {
+    animation: pulse-glow 2s infinite;
+    border-color: #00F0FF !important;
+}
+
+/* markdown styles for chat */
+.prose p { margin-bottom: 0.5em; }
+.prose code { background: rgba(0,0,0,0.5); padding: 0.1em 0.3em; border-radius: 3px; font-family: monospace; color: #00F0FF; }
+.prose pre { background: rgba(0,0,0,0.8); padding: 1em; border-radius: 8px; overflow-x: auto; margin-bottom: 1em; border: 1px solid rgba(0, 240, 255, 0.2); }
